@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import useSWR from "swr";
-import CreateDocument from "./create/page";
-import UpdateDocument from "./update/page";
-import DocumentDetele from "./delete/page";
+import CreateDocument from "./CreateDocument";
+import UpdateDocument from "./UpdateDocument";
+import DocumentDetele from "./DeleteDocument";
 
 async function getDocument(url: string) {
   try {
@@ -15,7 +15,6 @@ async function getDocument(url: string) {
     }
     return await res.json();
   } catch (err) {
-    console.log(err);
     throw err;
   }
 }

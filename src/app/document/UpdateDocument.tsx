@@ -3,6 +3,8 @@ import React from "react";
 import { SyntheticEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DocumenApiType } from "@/lib/types/Documen.type";
+import { ToastContainer } from "react-toastify";
+import { showToastMessageSuccess } from "@/components/Notification/Notification.type";
 
 export default function UpdateDocument(document: DocumenApiType) {
   const [title, setTitle] = useState(document.title);
@@ -14,24 +16,35 @@ export default function UpdateDocument(document: DocumenApiType) {
 
   async function handleUpdate(e: SyntheticEvent) {
     e.preventDefault();
+    try {
+      setIsMutating(true);
 
-    setIsMutating(true);
+      const kirmim = await fetch(
+        `http://localhost:3000/api/swagger/${document._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: title,
+            apiUrl: apiUrl,
+          }),
+        }
+      );
 
-    await fetch(`http://localhost:3000/api/swagger/${document._id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: title,
-        apiUrl: apiUrl,
-      }),
-    });
-
-    setIsMutating(false);
-
-    router.refresh();
-    setModal(false);
+      if (kirmim.ok) {
+        setTitle("");
+        setapiUrl("");
+        router.refresh();
+        showToastMessageSuccess("Successfully Create Data");
+        setModal(false);
+      } else {
+        throw new Error("Failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function handleChange() {
@@ -47,7 +60,7 @@ export default function UpdateDocument(document: DocumenApiType) {
         >
           Edit
         </button>
-
+        <ToastContainer />
         <input
           type="checkbox"
           checked={modal}
@@ -64,14 +77,14 @@ export default function UpdateDocument(document: DocumenApiType) {
               </p>
             </div>
             <form onSubmit={handleUpdate}>
-              <div className="form-control">
+              <div className="form-control py-5">
                 <label className="label font-bold">Title Aggregation</label>
                 <input
+                  required
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="input input-bordered input-info w-full"
-                  placeholder="Title of Aggregation"
+                  className="input input-bordered w-full"
                 />
                 <label className="label">
                   <span className="label-text-alt">
@@ -79,14 +92,14 @@ export default function UpdateDocument(document: DocumenApiType) {
                   </span>
                 </label>
               </div>
-              <div className="form-control">
+              <div className="form-control py-5">
                 <label className="label font-bold">Api Url</label>
                 <input
+                  required
                   type="text"
                   value={apiUrl}
                   onChange={(e) => setapiUrl(e.target.value)}
                   className="input w-full input-bordered"
-                  placeholder="Price"
                 />
                 <label className="label">
                   <span className="label-text-alt">

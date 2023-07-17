@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { DocumenApiType } from "@/lib/types/Documen.type";
+import { showToastMessageSuccess } from "@/components/Notification/Notification.type";
+import { ToastContainer } from "react-toastify";
 
 export default function DocumentDetele(document: DocumenApiType) {
   const [modal, setModal] = useState(false);
@@ -10,16 +12,20 @@ export default function DocumentDetele(document: DocumenApiType) {
   const router = useRouter();
 
   async function handleDelete(id: string) {
-    setIsMutating(true);
+    try {
+      setIsMutating(true);
 
-    await fetch(`http://localhost:3000/api/swagger/${document._id}`, {
-      method: "DELETE",
-    });
+      await fetch(`http://localhost:3000/api/swagger/${document._id}`, {
+        method: "DELETE",
+      });
 
-    setIsMutating(false);
-
-    router.refresh();
-    setModal(false);
+      setIsMutating(false);
+      showToastMessageSuccess("Success delete Data");
+      router.refresh();
+      setModal(false);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function handleChange() {
@@ -33,7 +39,7 @@ export default function DocumentDetele(document: DocumenApiType) {
       >
         Delete
       </button>
-
+      <ToastContainer />
       <input
         type="checkbox"
         checked={modal}

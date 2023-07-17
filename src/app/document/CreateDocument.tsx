@@ -1,6 +1,11 @@
 "use client";
 import { SyntheticEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  FaildedMessage,
+  showToastMessageSuccess,
+} from "@/components/Notification/Notification.type";
+import { ToastContainer } from "react-toastify";
 
 function CreateDocument() {
   const [title, setTitle] = useState("");
@@ -8,12 +13,13 @@ function CreateDocument() {
   const [modal, setModal] = useState(false);
   const [isMutating, setIsMutating] = useState(false);
   const router = useRouter();
+
   async function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
 
     setIsMutating(true);
 
-    await fetch("http://localhost:3000/api/swagger", {
+    const kirmim = await fetch("http://localhost:3000/api/swagger", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -23,13 +29,18 @@ function CreateDocument() {
         apiUrl: apiUrl,
       }),
     });
-
-    setIsMutating(false);
-
     setTitle("");
     setapiUrl("");
-    router.refresh();
-    setModal(false);
+    if (kirmim.status === 201) {
+      router.refresh();
+      setIsMutating(false);
+      showToastMessageSuccess("Successfully Create Data");
+      setModal(false);
+    } else {
+      FaildedMessage("somthing wrong");
+      setIsMutating(false);
+      setModal(false);
+    }
   }
 
   function handleChange() {
@@ -50,38 +61,34 @@ function CreateDocument() {
 
       <div className="modal">
         <div className="modal-box">
-          <h3 className="font-normal">Add New Document</h3>
+          <h3 className="font-normal">Add New Document</h3> <ToastContainer />
           <form onSubmit={handleSubmit}>
-            <div className="form-control pt-3">
+            <div className="form-control py-5">
               <label className="label font-bold">Title Aggregation</label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="input input-bordered input-info w-full"
-                placeholder="Title of Aggregation"
+                required
+                className="input input-bordered w-full"
               />
-              <label className="label">
-                <span className="label-text-alt">
-                  Example : Aggregation Ganteng
-                </span>
-              </label>
             </div>
-            <div className="form-control">
-              <label className="label font-bold">Price</label>
+
+            <span className="">Example : Aggregation Ganteng</span>
+
+            <div className="form-control py-5">
+              <label className="label font-bold">Api Url</label>
               <input
+                required
                 type="text"
                 value={apiUrl}
                 onChange={(e) => setapiUrl(e.target.value)}
-                className="input w-full input-bordered input-info"
-                placeholder="Api URL : exampe/api-json"
+                className="input w-full input-bordered"
               />
-              <label className="label">
-                <span className="label-text-alt">
-                  Example : https://petstore.swagger.io/v2/swagger.json
-                </span>
-              </label>
             </div>
+            <span className="">
+              Example : https://petstore.swagger.io/v2/swagger.json
+            </span>
             <div className="modal-action">
               <button
                 type="button"
@@ -91,18 +98,12 @@ function CreateDocument() {
                 Close
               </button>
               {!isMutating ? (
-                <button
-                  type="submit"
-                  className="btn btn-outline btn-success btn-sm"
-                >
-                  Save
+                <button type="submit" className="btn btn-info btn-sm">
+                  Create
                 </button>
               ) : (
-                <button
-                  type="button"
-                  className="btn btn-outline btn-success btn-sm"
-                >
-                  <span className="loading loading-spinner text-success"></span>
+                <button type="button" className="btn loading btn-sm">
+                  creating......
                 </button>
               )}
             </div>
