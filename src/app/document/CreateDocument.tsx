@@ -5,7 +5,6 @@ import {
   FaildedMessage,
   showToastMessageSuccess,
 } from "@/components/Notification/Notification.type";
-import { ToastContainer } from "react-toastify";
 
 function CreateDocument() {
   const [title, setTitle] = useState("");
@@ -29,9 +28,10 @@ function CreateDocument() {
         apiUrl: apiUrl,
       }),
     });
-    setTitle("");
-    setapiUrl("");
+
     if (kirmim.status === 201) {
+      setTitle("");
+      setapiUrl("");
       router.refresh();
       setIsMutating(false);
       showToastMessageSuccess("Successfully Create Data");
@@ -61,7 +61,7 @@ function CreateDocument() {
 
       <div className="modal">
         <div className="modal-box">
-          <h3 className="font-normal">Add New Document</h3> <ToastContainer />
+          <h3 className="font-normal">Add New Document</h3>
           <form onSubmit={handleSubmit}>
             <div className="form-control py-5">
               <label className="label font-bold">Title Aggregation</label>

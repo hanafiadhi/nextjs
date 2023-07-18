@@ -1,8 +1,6 @@
 import SwaggerUI from "@/components/swagger/swagger";
 import axios from "axios";
 import React from "react";
-import { data } from "./data";
-import Sidebars from "@/components/Sidebar";
 
 async function getData(id: string) {
   const res = await fetch(`http://localhost:3000/api/swagger/${id}`);
@@ -20,8 +18,8 @@ const SwaggerId = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const items = await getData(id);
   return (
-    <div className="bg-white">
-      <SwaggerUI data={items}></SwaggerUI>;
+    <div className="bg-slate-200">
+      <SwaggerUI data={items} />
     </div>
   );
 };

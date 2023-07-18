@@ -4,7 +4,10 @@ import { SyntheticEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DocumenApiType } from "@/lib/types/Documen.type";
 import { ToastContainer } from "react-toastify";
-import { showToastMessageSuccess } from "@/components/Notification/Notification.type";
+import {
+  FaildedMessage,
+  showToastMessageSuccess,
+} from "@/components/Notification/Notification.type";
 
 export default function UpdateDocument(document: DocumenApiType) {
   const [title, setTitle] = useState(document.title);
@@ -16,34 +19,33 @@ export default function UpdateDocument(document: DocumenApiType) {
 
   async function handleUpdate(e: SyntheticEvent) {
     e.preventDefault();
-    try {
-      setIsMutating(true);
 
-      const kirmim = await fetch(
-        `http://localhost:3000/api/swagger/${document._id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title: title,
-            apiUrl: apiUrl,
-          }),
-        }
-      );
+    setIsMutating(true);
 
-      if (kirmim.ok) {
-        setTitle("");
-        setapiUrl("");
-        router.refresh();
-        showToastMessageSuccess("Successfully Create Data");
-        setModal(false);
-      } else {
-        throw new Error("Failed");
+    const kirmim = await fetch(
+      `http://localhost:3000/api/swagger/${document._id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: title,
+          apiUrl: apiUrl,
+        }),
       }
-    } catch (error) {
-      console.log(error);
+    );
+
+    if (kirmim.status == 200) {
+      setTitle("");
+      setapiUrl("");
+      router.refresh();
+      showToastMessageSuccess("Successfully Update Data");
+      setModal(false);
+    } else {
+      FaildedMessage("somthing wrong");
+      setIsMutating(false);
+      setModal(false);
     }
   }
 
@@ -60,7 +62,6 @@ export default function UpdateDocument(document: DocumenApiType) {
         >
           Edit
         </button>
-        <ToastContainer />
         <input
           type="checkbox"
           checked={modal}

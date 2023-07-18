@@ -1,15 +1,14 @@
 "use client";
 import React from "react";
 import useSWR from "swr";
+import { ToastContainer } from "react-toastify";
 import CreateDocument from "./CreateDocument";
 import UpdateDocument from "./UpdateDocument";
 import DocumentDetele from "./DeleteDocument";
 
 async function getDocument(url: string) {
   try {
-    const res = await fetch(url, {
-      cache: "no-store",
-    });
+    const res = await fetch(url);
     if (!res.ok) {
       throw new Error("Failed to fetch documents");
     }
@@ -45,6 +44,7 @@ function page() {
   }
   return (
     <div className="flex justify-center ">
+      <ToastContainer />
       <div className="py-12">
         <div className="stats shadow">
           <div className="stat">

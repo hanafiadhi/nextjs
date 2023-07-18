@@ -2,7 +2,10 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { DocumenApiType } from "@/lib/types/Documen.type";
-import { showToastMessageSuccess } from "@/components/Notification/Notification.type";
+import {
+  FaildedMessage,
+  showToastMessageSuccess,
+} from "@/components/Notification/Notification.type";
 import { ToastContainer } from "react-toastify";
 
 export default function DocumentDetele(document: DocumenApiType) {
@@ -12,19 +15,23 @@ export default function DocumentDetele(document: DocumenApiType) {
   const router = useRouter();
 
   async function handleDelete(id: string) {
-    try {
-      setIsMutating(true);
+    setIsMutating(true);
 
-      await fetch(`http://localhost:3000/api/swagger/${document._id}`, {
+    const kirmin = await fetch(
+      `http://localhost:3000/api/swagger/${document._id}`,
+      {
         method: "DELETE",
-      });
-
+      }
+    );
+    if (kirmin.status == 200) {
       setIsMutating(false);
       showToastMessageSuccess("Success delete Data");
       router.refresh();
       setModal(false);
-    } catch (error) {
-      console.log(error);
+    } else {
+      FaildedMessage("somthing wrong");
+      setIsMutating(false);
+      setModal(false);
     }
   }
 
@@ -39,7 +46,6 @@ export default function DocumentDetele(document: DocumenApiType) {
       >
         Delete
       </button>
-      <ToastContainer />
       <input
         type="checkbox"
         checked={modal}

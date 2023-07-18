@@ -20,12 +20,9 @@ const SigninButton = () => {
   }
   return (
     <button
-      onClick={() => signIn()}
       type="button"
-      className="btn btn-outline btn-primary btn-sm"
-    >
-      Sign In
-    </button>
+      className="btn btn-outline btn-primary btn-sm loading loading-infinity loading-lg"
+    ></button>
   );
 };
 
