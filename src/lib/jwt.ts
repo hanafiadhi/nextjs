@@ -8,15 +8,13 @@ interface SignOption {
 const DEFAULT_SIGN_OPTION: SignOption = {
   expiresIn: "1h",
 };
-let tokenPayload = "";
+
 export function signJwtAccessToken(
   payload: JwtPayload,
   options: SignOption = DEFAULT_SIGN_OPTION
 ) {
   const secret_key = process.env.SECRET_KEY;
   const token = jwt.sign(payload, "rahasia", options);
-  tokenPayload = token;
-  console.log(tokenPayload);
   return token;
 }
 
