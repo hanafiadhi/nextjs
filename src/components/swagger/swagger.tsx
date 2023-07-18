@@ -2,7 +2,11 @@
 import React, { useEffect, useState } from "react";
 import SwaggerUIReact from "swagger-ui-react";
 import "swagger-ui-react/swagger-ui.css";
-import axios from "axios";
+import {
+  FaildedMessage,
+  FaildedMessageOpenApi,
+} from "../Notification/Notification.type";
+import { ToastContainer } from "react-toastify";
 
 const SwaggerUI = ({ data = "" }: any) => {
   const [swaggerData, setSwaggerData] = useState(null);
@@ -15,6 +19,7 @@ const SwaggerUI = ({ data = "" }: any) => {
         });
         setSwaggerData(await response.json());
       } catch (error) {
+        FaildedMessageOpenApi("somthing wrong");
         // console.error("Failed to fetch Swagger data:", error);
       }
     };
@@ -22,7 +27,16 @@ const SwaggerUI = ({ data = "" }: any) => {
     fetchSwaggerData();
   }, []);
 
-  return swaggerData ? <SwaggerUIReact spec={swaggerData} /> : null;
+  return swaggerData ? (
+    <div className="bg-slate-200">
+      <SwaggerUIReact spec={swaggerData} />
+    </div>
+  ) : (
+    <div>
+      <ToastContainer />
+      <span className="loading loading-spinner text-primary loading-lg"></span>
+    </div>
+  );
 };
 
 export default SwaggerUI;

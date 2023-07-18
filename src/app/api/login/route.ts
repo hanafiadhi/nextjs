@@ -14,7 +14,7 @@ export async function POST(request: Request) {
   try {
     await connection();
     const user = await User.findOne({ username: body.username }).exec();
-    const findUserByRoleAndApplication = (userData: any) => {
+    const findUserByRoleAndApplication: any = (userData: any) => {
       return (
         userData.role.includes("root") &&
         userData.applications.includes("dashboard")
@@ -33,13 +33,13 @@ export async function POST(request: Request) {
         username,
         role,
       };
-      const accessToken = signJwtAccessToken(Payload);
+      //   const accessToken = signJwtAccessToken(Payload);
 
       const result = {
         _id,
         username,
         role,
-        accessToken,
+        // accessToken,
       };
       // console.log(accessToken);
       return new Response(JSON.stringify(result));

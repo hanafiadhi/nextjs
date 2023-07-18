@@ -7,8 +7,13 @@ export const showToastMessageSuccess = (messagae: string) => {
   });
 };
 
-export const FaildedMessage = (message: string) => {
+export const FaildedMessage = (message: any) => {
   toast.error(message, {
     position: toast.POSITION.TOP_RIGHT,
+  });
+};
+export const FaildedMessageOpenApi = (message: any) => {
+  toast.error(message, {
+    position: toast.POSITION.BOTTOM_CENTER,
   });
 };

@@ -1,12 +1,18 @@
+import { FaildedMessage } from "@/components/Notification/Notification.type";
 import SwaggerUI from "@/components/swagger/swagger";
 import React from "react";
+import { ToastContainer } from "react-toastify";
 
 async function getData(id: string) {
-  const res = await fetch(`http://localhost:3000/api/swagger/${id}`, {
-    cache: "force-cache",
-  });
-  const data = await res.json();
-  return data;
+  try {
+    const res = await fetch(`http://localhost:3000/api/swagger/${id}`, {
+      cache: "force-cache",
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    FaildedMessage("Somthing Wrong");
+  }
 }
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const Document = await getData(params.id);
@@ -18,11 +24,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 const SwaggerId = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const items = await getData(id);
-  return (
-    <div className="bg-slate-200">
-      <SwaggerUI data={items} />
-    </div>
-  );
+  return <SwaggerUI data={items} />;
 };
 
 export default SwaggerId;

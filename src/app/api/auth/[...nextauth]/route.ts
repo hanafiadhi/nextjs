@@ -69,7 +69,7 @@ const handler = NextAuth({
   // },
   callbacks: {
     async jwt({ token, user }: { token: JWT; user?: User }) {
-      if (user?.username) {
+      if (user?.role) {
         return { ...token, ...user };
       }
       return { ...token, ...user };
@@ -89,8 +89,6 @@ const handler = NextAuth({
       //   jti: '29b62d81-5e82-4c99-ba49-f8a4bc2bb7d3'
       // }
       if (session.user) {
-        session.user.accessToken = token.accessToken;
-        session.user.name = token.username;
         session.user.role = token.role;
       }
       // console.log(session);
