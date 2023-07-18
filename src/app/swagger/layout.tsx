@@ -13,7 +13,7 @@ async function getDocument(url: string) {
     }
     return await res.json();
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     throw err;
   }
 }

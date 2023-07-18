@@ -1,9 +1,10 @@
 import SwaggerUI from "@/components/swagger/swagger";
-import axios from "axios";
 import React from "react";
 
 async function getData(id: string) {
-  const res = await fetch(`http://localhost:3000/api/swagger/${id}`);
+  const res = await fetch(`http://localhost:3000/api/swagger/${id}`, {
+    cache: "force-cache",
+  });
   const data = await res.json();
   return data;
 }

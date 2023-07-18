@@ -23,7 +23,7 @@ export function verifyJwt(token: string) {
     const decoded = jwt.verify(token, "rahasia");
     return decoded;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return null;
   }
 }

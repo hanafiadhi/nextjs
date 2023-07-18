@@ -7,15 +7,7 @@ import UpdateDocument from "./UpdateDocument";
 import DocumentDetele from "./DeleteDocument";
 
 async function getDocument(url: string) {
-  try {
-    const res = await fetch(url);
-    if (!res.ok) {
-      throw new Error("Failed to fetch documents");
-    }
-    return await res.json();
-  } catch (err) {
-    throw err;
-  }
+  return await fetch(url).then((res) => res.json());
 }
 function page() {
   const { data, error } = useSWR(
