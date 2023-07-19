@@ -8,9 +8,12 @@ import { useRouter } from "next/navigation";
 
 async function getData(id: string) {
   try {
-    const res = await fetch(`http://localhost:3000/api/swagger/${id}`, {
-      cache: "force-cache",
-    });
+    const res = await fetch(
+      `https://nextjs-six-inky-75.vercel.app/api/swagger/${id}`,
+      {
+        cache: "force-cache",
+      }
+    );
     const data = await res.json();
     return data;
   } catch (error) {

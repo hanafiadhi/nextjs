@@ -18,16 +18,19 @@ function CreateDocument() {
 
     setIsMutating(true);
 
-    const kirmim = await fetch("http://localhost:3000/api/swagger", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: title,
-        apiUrl: apiUrl,
-      }),
-    });
+    const kirmim = await fetch(
+      "https://nextjs-six-inky-75.vercel.app/api/swagger",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: title,
+          apiUrl: apiUrl,
+        }),
+      }
+    );
 
     if (kirmim.status === 201) {
       setTitle("");

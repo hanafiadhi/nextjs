@@ -21,7 +21,7 @@ function Page() {
     },
   });
   const { data, error } = useSWR(
-    "http://localhost:3000/api/swagger",
+    "https://nextjs-six-inky-75.vercel.app/api/swagger",
     getDocument
   );
   if (error) {
