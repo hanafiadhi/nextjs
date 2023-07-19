@@ -18,7 +18,7 @@ export default function DocumentDetele(document: DocumenApiType) {
     setIsMutating(true);
 
     const kirmin = await fetch(
-      `https://nextjs-six-inky-75.vercel.app/api/swagger/${document._id}`,
+      `${process.env.NEXTAUTH_URL}/api/swagger${document._id}`,
       {
         method: "DELETE",
       }

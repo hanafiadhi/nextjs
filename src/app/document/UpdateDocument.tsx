@@ -23,7 +23,7 @@ export default function UpdateDocument(document: DocumenApiType) {
     setIsMutating(true);
 
     const kirmim = await fetch(
-      `https://nextjs-six-inky-75.vercel.app/api/swagger/${document._id}`,
+      `${process.env.NEXTAUTH_URL}/api/swagger${document._id}`,
       {
         method: "PATCH",
         headers: {

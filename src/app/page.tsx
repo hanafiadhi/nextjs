@@ -18,7 +18,7 @@ export default function Home() {
     }
   }
   const { data, error } = useSWR(
-    "https://nextjs-six-inky-75.vercel.app/api/swagger",
+    `${process.env.NEXTAUTH_URL}/api/swagger`,
     getDocument
   );
   if (!data) {
