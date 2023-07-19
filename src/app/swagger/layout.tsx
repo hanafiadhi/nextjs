@@ -3,6 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
+
 async function getDocument(url: string) {
   try {
     const res = await fetch(url, {
@@ -17,7 +18,7 @@ async function getDocument(url: string) {
     throw err;
   }
 }
-function layout({ children }: { children: React.ReactNode }) {
+function Layout({ children }: { children: React.ReactNode }) {
   const { data, error } = useSWR(
     "http://localhost:3000/api/swagger",
     getDocument
@@ -92,4 +93,4 @@ function layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default layout;
+export default Layout;

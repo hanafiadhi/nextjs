@@ -25,7 +25,7 @@ const SwaggerUI = ({ data = "" }: any) => {
     };
 
     fetchSwaggerData();
-  }, []);
+  }, [data.apiUrl]);
 
   return swaggerData ? (
     <div className="bg-slate-200">

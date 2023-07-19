@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 async function getDocument(url: string) {
   return await fetch(url).then((res) => res.json());
 }
-function page() {
+function Page() {
   const router = useRouter();
   const { status } = useSession({
     required: true,
@@ -96,4 +96,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
