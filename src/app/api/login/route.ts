@@ -23,8 +23,10 @@ export async function POST(request: Request) {
 
     const userWithRootRoleAndDocumentationApp =
       findUserByRoleAndApplication(user);
-    if (userWithRootRoleAndDocumentationApp == false)
+    if (userWithRootRoleAndDocumentationApp == false) {
       return new Response(JSON.stringify(null));
+    }
+
     if (user && (await bcrypt.compareSync(body.password, user.password))) {
       const { _id, username, role, password, ...userWithoutPass } =
         user.toJSON(); // Convert the Mongoose document to a plain JavaScript object
