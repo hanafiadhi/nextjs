@@ -1,6 +1,7 @@
 "use client";
 import useSWR from "swr";
 import { useState, useEffect } from "react";
+import { API_URL } from "@/utils/api_url.utils";
 
 export default function Home() {
   async function getDocument(url: string) {
@@ -17,10 +18,7 @@ export default function Home() {
       throw err;
     }
   }
-  const { data, error } = useSWR(
-    `${process.env.NEXTAUTH_URL}/api/swagger`,
-    getDocument
-  );
+  const { data, error } = useSWR(`${API_URL}/api/swagger`, getDocument);
   if (!data) {
     // Data is still being fetched, you can show a loading state.
     return (

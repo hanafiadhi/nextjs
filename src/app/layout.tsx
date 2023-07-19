@@ -1,6 +1,5 @@
 import "./globals.css";
 import Providers from "@/components/Providers";
-import Sidebars from "@/components/Sidebar";
 import SigninButton from "@/components/SigninButton";
 import Image from "next/image";
 export const metadata = {
@@ -46,6 +45,8 @@ export default function RootLayout({
                   <a href="/" className="flex items-center">
                     <Image
                       src="/thinks.png"
+                      width={186}
+                      height={32}
                       className="h-8 mr-3"
                       alt="Flowbite Logo"
                     />

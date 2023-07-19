@@ -5,6 +5,7 @@ import {
   FaildedMessage,
   showToastMessageSuccess,
 } from "@/components/Notification/Notification.type";
+import { API_URL } from "@/utils/api_url.utils";
 
 function CreateDocument() {
   const [title, setTitle] = useState("");
@@ -18,7 +19,7 @@ function CreateDocument() {
 
     setIsMutating(true);
 
-    const kirmim = await fetch(`${process.env.NEXTAUTH_URL}/api/swagger`, {
+    const kirmim = await fetch(`${API_URL}/api/swagger`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

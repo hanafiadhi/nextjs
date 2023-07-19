@@ -7,6 +7,7 @@ import UpdateDocument from "./UpdateDocument";
 import DocumentDetele from "./DeleteDocument";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { API_URL } from "@/utils/api_url.utils";
 
 async function getDocument(url: string) {
   return await fetch(url).then((res) => res.json());
@@ -20,10 +21,8 @@ function Page() {
       router.push("/");
     },
   });
-  const { data, error } = useSWR(
-    `${process.env.NEXTAUTH_URL}/api/swagger`,
-    getDocument
-  );
+
+  const { data, error } = useSWR(`${API_URL}/api/swagger`, getDocument);
   if (error) {
     return <div>Error: Failed to fetch documents</div>;
   }

@@ -7,6 +7,7 @@ import {
   showToastMessageSuccess,
 } from "@/components/Notification/Notification.type";
 import { ToastContainer } from "react-toastify";
+import { API_URL } from "@/utils/api_url.utils";
 
 export default function DocumentDetele(document: DocumenApiType) {
   const [modal, setModal] = useState(false);
@@ -17,12 +18,9 @@ export default function DocumentDetele(document: DocumenApiType) {
   async function handleDelete(id: string) {
     setIsMutating(true);
 
-    const kirmin = await fetch(
-      `${process.env.NEXTAUTH_URL}/api/swagger${document._id}`,
-      {
-        method: "DELETE",
-      }
-    );
+    const kirmin = await fetch(`${API_URL}/api/swagger/${document._id}`, {
+      method: "DELETE",
+    });
     if (kirmin.status == 200) {
       setIsMutating(false);
       showToastMessageSuccess("Success delete Data");
