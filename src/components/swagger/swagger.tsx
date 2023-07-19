@@ -2,13 +2,20 @@
 import React, { useEffect, useState } from "react";
 import SwaggerUIReact from "swagger-ui-react";
 import "swagger-ui-react/swagger-ui.css";
-import {
-  FaildedMessage,
-  FaildedMessageOpenApi,
-} from "../Notification/Notification.type";
+import { FaildedMessageOpenApi } from "../Notification/Notification.type";
+import { useRouter } from "next/navigation";
 import { ToastContainer } from "react-toastify";
+import { useSession } from "next-auth/react";
 
 const SwaggerUI = ({ data }: any) => {
+  const router = useRouter();
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      // The user is not authenticated, handle it here.
+      router.push("/");
+    },
+  });
   const [swaggerData, setSwaggerData] = useState(null);
   const [problem, setProblem] = useState<any>(null);
   useEffect(() => {
