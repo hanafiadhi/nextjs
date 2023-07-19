@@ -5,11 +5,13 @@ import { ToastContainer } from "react-toastify";
 import CreateDocument from "./CreateDocument";
 import UpdateDocument from "./UpdateDocument";
 import DocumentDetele from "./DeleteDocument";
+import { Redirect } from "@/utils/redirect.ultis";
 
 async function getDocument(url: string) {
   return await fetch(url).then((res) => res.json());
 }
 function page() {
+  Redirect();
   const { data, error } = useSWR(
     "http://localhost:3000/api/swagger",
     getDocument

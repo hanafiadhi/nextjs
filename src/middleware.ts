@@ -5,6 +5,6 @@ export const config = {
     "/UserPost/:path*",
     "/swagger/:path*",
     "/api/swagger:path*",
-    "/document",
+    "/document/:path*",
   ],
 };

@@ -1,5 +1,6 @@
 import { FaildedMessage } from "@/components/Notification/Notification.type";
 import SwaggerUI from "@/components/swagger/swagger";
+import { Redirect } from "@/utils/redirect.ultis";
 import React from "react";
 import { ToastContainer } from "react-toastify";
 
@@ -22,6 +23,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   };
 }
 const SwaggerId = async ({ params }: { params: { id: string } }) => {
+  Redirect();
   const { id } = params;
   const items = await getData(id);
   return <SwaggerUI data={items} />;
