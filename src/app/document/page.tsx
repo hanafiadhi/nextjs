@@ -5,13 +5,21 @@ import { ToastContainer } from "react-toastify";
 import CreateDocument from "./CreateDocument";
 import UpdateDocument from "./UpdateDocument";
 import DocumentDetele from "./DeleteDocument";
-import { Redirect } from "@/utils/redirect.ultis";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 async function getDocument(url: string) {
   return await fetch(url).then((res) => res.json());
 }
 function page() {
-  Redirect();
+  const router = useRouter();
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      // The user is not authenticated, handle it here.
+      router.push("/");
+    },
+  });
   const { data, error } = useSWR(
     "http://localhost:3000/api/swagger",
     getDocument

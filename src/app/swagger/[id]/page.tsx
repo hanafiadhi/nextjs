@@ -3,6 +3,8 @@ import SwaggerUI from "@/components/swagger/swagger";
 import { Redirect } from "@/utils/redirect.ultis";
 import React from "react";
 import { ToastContainer } from "react-toastify";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 async function getData(id: string) {
   try {
@@ -23,7 +25,14 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   };
 }
 const SwaggerId = async ({ params }: { params: { id: string } }) => {
-  Redirect();
+  const router = useRouter();
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      // The user is not authenticated, handle it here.
+      router.push("/");
+    },
+  });
   const { id } = params;
   const items = await getData(id);
   return <SwaggerUI data={items} />;
