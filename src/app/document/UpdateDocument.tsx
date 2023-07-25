@@ -8,7 +8,7 @@ import {
   FaildedMessage,
   showToastMessageSuccess,
 } from "@/components/Notification/Notification.type";
-import { API_URL } from "@/utils/api_url.utils";
+import { APP_HOST, APP_PORT } from "@/utils/env.constant";
 
 export default function UpdateDocument(document: DocumenApiType) {
   const [title, setTitle] = useState(document.title);
@@ -23,16 +23,19 @@ export default function UpdateDocument(document: DocumenApiType) {
 
     setIsMutating(true);
 
-    const kirmim = await fetch(`${API_URL}/api/swagger/${document._id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: title,
-        apiUrl: apiUrl,
-      }),
-    });
+    const kirmim = await fetch(
+      `http://${APP_HOST}:${APP_PORT}/api/swagger/${document._id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: title,
+          apiUrl: apiUrl,
+        }),
+      }
+    );
 
     if (kirmim.status == 200) {
       setTitle("");

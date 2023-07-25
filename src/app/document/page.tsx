@@ -7,7 +7,7 @@ import UpdateDocument from "./UpdateDocument";
 import DocumentDetele from "./DeleteDocument";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { API_URL } from "@/utils/api_url.utils";
+import { APP_PORT, APP_HOST } from "@/utils/env.constant";
 
 async function getDocument(url: string) {
   return await fetch(url).then((res) => res.json());
@@ -22,7 +22,10 @@ function Page() {
     },
   });
 
-  const { data, error } = useSWR(`${API_URL}/api/swagger`, getDocument);
+  const { data, error } = useSWR(
+    `http://${APP_HOST}:${APP_PORT}/api/swagger`,
+    getDocument
+  );
   if (error) {
     return <div>Error: Failed to fetch documents</div>;
   }

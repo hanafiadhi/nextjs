@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { API_URL } from "@/utils/api_url.utils";
+import { APP_HOST, APP_PORT } from "@/utils/env.constant";
 
 async function getDocument(url: string) {
   try {
@@ -20,7 +20,10 @@ async function getDocument(url: string) {
   }
 }
 function Layout({ children }: { children: React.ReactNode }) {
-  const { data, error } = useSWR(`${API_URL}/api/swagger`, getDocument);
+  const { data, error } = useSWR(
+    `http://${APP_HOST}:${APP_PORT}/api/swagger`,
+    getDocument
+  );
   if (error) {
     return <div>Error: Failed to fetch documents</div>;
   }

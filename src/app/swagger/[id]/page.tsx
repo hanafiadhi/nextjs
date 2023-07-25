@@ -3,7 +3,7 @@ import SwaggerUI from "@/components/swagger/swagger";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { API_URL } from "@/utils/api_url.utils";
+import { APP_HOST, APP_PORT } from "@/utils/env.constant";
 
 interface SwaggerData {
   title: string;
@@ -12,9 +12,12 @@ interface SwaggerData {
 }
 async function getData(id: string) {
   try {
-    const res = await fetch(`${API_URL}/api/swagger/${id}`, {
-      cache: "force-cache",
-    });
+    const res = await fetch(
+      `http://${APP_HOST}:${APP_PORT}/api/swagger/${id}`,
+      {
+        cache: "force-cache",
+      }
+    );
     const data = await res.json();
     return data;
   } catch (error) {
